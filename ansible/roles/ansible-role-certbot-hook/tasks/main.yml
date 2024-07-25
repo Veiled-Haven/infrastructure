@@ -1,0 +1,39 @@
+---
+- name: Ensure HAProxy SSL directory exists
+  file:
+    path: /etc/haproxy/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy the concat_certificates.sh script
+  copy:
+    src: concat_certificates.sh
+    dest: /usr/local/bin/concat_certificates.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create systemd override directory for certbot service
+  file:
+    path: /etc/systemd/system/certbot.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Deploy certbot service override file
+  copy:
+    src: certbot.service
+    dest: /etc/systemd/system/certbot.service.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: systemd_daemon_reload
+
+- name: Enable and start certbot.timer
+  systemd:
+    name: certbot.timer
+    enabled: yes
+    state: started

@@ -1,0 +1,23 @@
+---
+# Default values for Crafty Controller installation
+
+# Crafty Controller image and version
+crafty_image: "registry.gitlab.com/crafty-controller/crafty-4"
+crafty_version: "latest"
+
+# Container name
+crafty_container_name: "crafty"
+
+# Host port mappings
+crafty_host_ports:
+  - "127.0.0.1:8443:8443"  # HTTPS
+  - "127.0.0.1:8123:8123"  # DYNMAP
+  - "0.0.0.0:24454:24454/udp"  # BEDROCK
+  - "0.0.0.0:19132:19132/udp"  # BEDROCK
+  - "0.0.0.0:25500-25600:25500-25600"  # MC SERVER PORT RANGE
+
+# Base directory on the host for Crafty data
+crafty_base_data_dir: "/srv/docker/crafty-4"
+
+# Timezone
+crafty_timezone: "Etc/UTC"

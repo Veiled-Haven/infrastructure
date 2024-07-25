@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: ubuntu
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCsxMpSn+VmTWg2900mOiTnuWlWvBkbCgnb3HoK2Scbrlesyv0oCv3yOLHe7oE0wYdmfgUdLX48jM1CDfLwVna0c3NDlTziLsZNRmiUI23YSQ9ttsmK/1IQjQNpJX+hq6fuNaMklgXoBIpyqqSbvr01b2KVhxkBkJKIiCcEDXuVRS53vaU1HXH3O9BHnSiFhOGLDqt5MDHtidQptFUODSxGJqi9IltHphfHUovpfaPTGpeFknLzqKaL4apIPURuDjKXZ5c2faiKp1rmSeUUHy+bT6D91nn00LlTwyUQvm6pxztzyhIpcbfd1BJLq7KJW21gBRn3DsXWU1C8r3dKAt6hEwXvuOXj3gHGUtEEmw5CJZ+kmHNKaOgzQFeU1S33mpLvUl/e4LgDmG39TMlp6y23Q6c6RyEcwuyx0BRRF6zIod7+WBtDcdysCfQQwaQ6VZSKztgceagTypxTmmouDrAwDzMNSW69pNuIbDcVVtsVPKj29CwCVxrlJHDuWQg/0cCScFmDDhMzNWpgLoqG/qT3vx9nhFQ9c+oxQQcmmRE66x6CiWJwesSghOegJoDpavMCSkO4cektQWVLKZE/3wXmyWAnX7Mpop9116FsG4vOw8PgbAhxKjcqoPKA2obhaMndJsOH2QqNizpMFPdcRQf5U91RqvlE0TgoTjIaY+d+EQ== KeyboardInterrupt
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash

@@ -1,0 +1,17 @@
+---
+# handlers file for ansible-role-haproxy
+
+- name: restart haproxy
+  systemd:
+    name: haproxy
+    state: restarted
+    daemon_reload: yes
+  when:
+    - haproxy_manage_service
+
+- name: reload haproxy
+  service:
+    name: haproxy
+    state: reloaded
+  when:
+    - haproxy_manage_service

@@ -1,0 +1,15 @@
+---
+# Default values for Veiled Haven Landingpage installation
+
+# Veiled Haven Landingpage image and version
+veiled_haven_landingpage_image: "ghcr.io/veiled-haven/landingpage/veiled-haven-landingpage"
+veiled_haven_landingpage_version: "head"
+
+# Container name
+veiled_haven_landingpage_container_name: "vh_landingpage"
+
+# Host port mappings
+veiled_haven_landingpage_host_ports:
+  - "127.0.0.1:5000:5000"  # HTTP
+
+veiled_haven_landingpage_base_data_dir: /srv/docker/veiled_haven_landingpage

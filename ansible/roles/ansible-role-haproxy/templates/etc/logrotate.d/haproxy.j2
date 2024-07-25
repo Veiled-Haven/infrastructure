@@ -1,0 +1,17 @@
+/var/log/haproxy.log {
+    su root syslog
+    daily
+    rotate {{ haproxy_logrotate_rotate }}
+{% if haproxy_logrotate_size is defined and haproxy_logrotate_size %}
+    size {{ haproxy_logrotate_size }}
+{% endif %}
+    missingok
+    notifempty
+    compress
+{% if haproxy_logrotate_delaycompress is defined and haproxy_logrotate_delaycompress %}
+    delaycompress
+{% endif %}
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

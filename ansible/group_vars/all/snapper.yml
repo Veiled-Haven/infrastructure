@@ -1,0 +1,9 @@
+snapper_configs:
+  - path:  /srv/docker/crafty-4
+    name: crafty-4
+    vars:
+      TIMELINE_LIMIT_HOURLY: 48
+      TIMELINE_LIMIT_DAILY: 7
+      TIMELINE_LIMIT_WEEKLY: 5
+      TIMELINE_LIMIT_MONTHLY: 12
+      TIMELINE_LIMIT_YEARLY: 0

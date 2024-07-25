@@ -1,0 +1,9 @@
+---
+# tasks file for ansible-role-haproxy
+
+- import_tasks: install.yml
+
+- import_tasks: config.yml
+
+- name: Flush handlers
+  meta: flush_handlers

@@ -1,0 +1,5 @@
+---
+roles:
+  - name: geerlingguy.docker
+  - name: Aisbergg.snapper
+    version: v2.1.0

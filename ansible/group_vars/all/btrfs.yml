@@ -1,0 +1,7 @@
+---
+btrfs_volumes:
+  - device: /dev/sdb
+    mount_point: /srv/docker/
+    subvolumes:
+      - crafty-4
+      - veiled_haven_landingpage

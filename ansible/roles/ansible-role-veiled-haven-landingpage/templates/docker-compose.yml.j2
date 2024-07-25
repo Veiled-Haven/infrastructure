@@ -1,0 +1,10 @@
+---
+services:
+  veiled_haven:
+    image: "{{ veiled_haven_landingpage_image }}:{{ veiled_haven_landingpage_version }}"
+    container_name: "{{ veiled_haven_landingpage_container_name }}"
+    ports:
+{% for port in veiled_haven_landingpage_host_ports %}
+      - "{{ port }}"
+{% endfor %}
+    restart: always

@@ -1,0 +1,15 @@
+# Default variables for ansible-role-btrfs-docker
+
+# List of Btrfs volumes, their mount points, and corresponding project subvolumes
+btrfs_volumes: []
+# btrfs_volumes:
+#   - device: /dev/sdX1
+#     mount_point: /srv/docker/volume1
+#     subvolumes:
+#       - project1
+#       - project2
+#   - device: /dev/sdX2
+#     mount_point: /srv/docker/volume2
+#     subvolumes:
+#       - project3
+#       - project4

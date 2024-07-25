@@ -1,0 +1,46 @@
+---
+# tasks file for HAProxy configuration
+
+
+- name: Ensure the directory for SSL files exists
+  ansible.builtin.file:
+    path: /etc/haproxy/ssl
+    state: directory
+    mode: '0755'
+
+- name: Combine key and certificate into a single PEM file
+  ansible.builtin.shell:
+    cmd: cat /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key  > /etc/haproxy/ssl/snakeoil.pem
+    creates: /etc/haproxy/ssl/snakeoil.pem
+
+- name: Copy HAProxy configuration in place.
+  template:
+    src: etc/haproxy/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    #validate: haproxy -c -f %s
+  when: haproxy_manage_haproxy_cfg
+  notify: reload haproxy
+
+- name: render and ship haproxy logrotate
+  template:
+    src: etc/logrotate.d/haproxy.j2
+    dest: /etc/logrotate.d/haproxy
+    mode: 0644
+
+- name: Create systemd conf overwrite dir
+  file:
+    state: directory
+    path: /etc/systemd/system/haproxy.service.d
+    owner: root
+    group: root
+    mode: 0750
+
+- name: Configure haproxy systemd unit
+  template:
+    src: etc/systemd/system/haproxy.service.d/limits.conf.j2
+    dest: /etc/systemd/system/haproxy.service.d/limits.conf
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart haproxy

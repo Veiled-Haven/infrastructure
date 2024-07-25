@@ -1,0 +1,31 @@
+---
+- name: Ensure Docker SDK and compose are installed
+  ansible.builtin.apt:
+    name:
+      - python3-docker
+      - python3-compose
+    state: present
+
+- name: Create base data directory
+  ansible.builtin.file:
+    path: "{{ veiled_haven_landingpage_base_data_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Pull Crafty Controller image
+  community.docker.docker_image:
+    name: "{{ veiled_haven_landingpage_image }}"
+    tag: "{{ veiled_haven_landingpage_version }}"
+    source: pull
+
+- name: Copy docker-compose.yml to the target directory
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ veiled_haven_landingpage_base_data_dir }}/docker-compose.yml"
+
+- name: Deploy Crafty Controller using docker-compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ veiled_haven_landingpage_base_data_dir }}"
+    state: present

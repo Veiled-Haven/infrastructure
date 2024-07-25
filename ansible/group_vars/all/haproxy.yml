@@ -1,0 +1,43 @@
+---
+haproxy_cfg_frontends:
+  - name: http
+    options:
+      - bind :80
+      - '# LetsEncrypt and HTTP -> HTTPS Redirect'
+      - acl letsencrypt-acl path_beg -i /.well-known/acme-challenge/
+      - redirect scheme https code 301 if !letsencrypt-acl !{ ssl_fc }
+      - use_backend letsencrypt if letsencrypt-acl
+
+  - name: https
+    options:
+      - bind :443 ssl crt /etc/haproxy/ssl/ alpn h2,http/1.1
+      - '# Veiled-Haven'
+      - use_backend squaremap                if { hdr_dom(host) -i map.veiled-haven.net }
+      - use_backend crafty                   if { hdr_dom(host) -i admin.veiled-haven.net }
+      - use_backend netdata                  if { hdr_dom(host) -i netdata.veiled-haven.net }
+      - use_backend veiled_haven_landingpage if { hdr_dom(host) -i veiled-haven.net }
+
+haproxy_cfg_userlists:
+  - name: Users
+    users:
+    - name: admin
+      hashed_password: $6$60328$XXBRT2PL7RyfpRaAce.ExeF/OzSLSUYmDTDOyjz28huRgT2O2m7EGTcABLvlatS8mQX8xWJHDs4KQMqmVFRVG.
+
+haproxy_cfg_backends:
+  - name: letsencrypt
+    options:
+      - server letsencrypt 127.0.0.1:54321
+  - name: crafty
+    options:
+      - server crafty 127.0.0.1:8443 ssl verify none
+  - name: veiled_haven_landingpage
+    options:
+      - server vh_landingpage 127.0.0.1:5000
+  - name: squaremap
+    options:
+      - server squaremap 127.0.0.1:8123
+  - name: netdata
+    options:
+      - acl auth_ok http_auth(Users)
+      - http-request auth realm MySecureApp if !auth_ok
+      - server netdata 127.0.0.1:19999

@@ -1,0 +1,9 @@
+---
+- name: Create subvolume
+  command: "btrfs subvolume create {{ item.mount_point }}/{{ subvolume }}"
+  loop: "{{ item.subvolumes }}"
+  loop_control:
+    loop_var: subvolume
+  become: true
+  register: create_subvolume_output
+  changed_when: "'target path already exists' not in create_subvolume_output.stderr"

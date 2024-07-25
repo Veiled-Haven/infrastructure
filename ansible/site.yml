@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - ansible-role-btrfs
+    - Aisbergg.snapper
+    - geerlingguy.docker
+    - ansible-role-veiled-haven-landingpage
+    - ansible-role-crafty
+    - ansible-role-netdata
+    - ansible-role-haproxy
+    - ansible-role-certbot
+    - ansible-role-certbot-hook

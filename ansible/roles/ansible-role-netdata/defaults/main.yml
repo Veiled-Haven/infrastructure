@@ -1,0 +1,15 @@
+---
+# Default values for Netdata installation
+
+# Netdata image and version
+netdata_image: "netdata/netdata"
+netdata_version: "latest"
+
+# Container name
+netdata_container_name: "netdata"
+
+# Host port mappings
+netdata_host_ports:
+  - "127.0.0.1:19999:19999"  # HTTP
+
+netdata_base_data_dir: /srv/docker/netdata

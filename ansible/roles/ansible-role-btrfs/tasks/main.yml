@@ -1,0 +1,33 @@
+---
+- name: Install Btrfs tools
+  ansible.builtin.apt:
+    name: btrfs-progs
+    state: present
+
+- name: Create Btrfs filesystem
+  ansible.builtin.filesystem:
+    fstype: btrfs
+    dev: "{{ item.device }}"
+  when: item.device is defined
+  become: true
+  loop: "{{ btrfs_volumes }}"
+
+- name: Ensure mount point directory exists
+  ansible.builtin.file:
+    path: "{{ item.mount_point }}"
+    state: directory
+  become: true
+  loop: "{{ btrfs_volumes }}"
+
+- name: Mount Btrfs filesystem
+  ansible.builtin.mount:
+    src: "{{ item.device }}"
+    path: "{{ item.mount_point }}"
+    fstype: btrfs
+    state: mounted
+  become: true
+  loop: "{{ btrfs_volumes }}"
+
+- name: handle subvolumes
+  ansible.builtin.include_tasks: subvolumes.yml
+  loop: "{{ btrfs_volumes }}"

@@ -1,0 +1,24 @@
+---
+- name: Ensure Certbot is installed
+  apt:
+    name: certbot
+    state: present
+    update_cache: yes
+
+- name: Ensure Certbot standalone service dependencies are installed
+  apt:
+    name: socat
+    state: present
+    update_cache: yes
+
+- name: Generate the certificates using standalone mode on a different port
+  command: >
+    certbot certonly --non-interactive --expand --agree-tos --email {{ item.email }} --standalone
+    --http-01-port {{ item.port }}
+    {% for domain in item.domains %}
+    -d {{ domain }}
+    {% endfor %}
+  with_items: "{{ certificates }}"
+  register: certbot_output
+  changed_when: "'Certificate not yet due for renewal' not in certbot_output.stdout"
+

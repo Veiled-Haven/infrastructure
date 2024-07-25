@@ -1,0 +1,78 @@
+# {{ ansible_managed }}
+
+#### global ####
+
+global
+{% for global_option in haproxy_cfg_global %}
+    {{ global_option }}
+{% endfor %}
+{% if not haproxy_cfg_global | select('search', 'stats socket') %}
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+{% endif %}
+
+#### defaults ####
+
+defaults
+{% for default_option in haproxy_cfg_defaults %}
+    {{ default_option }}
+{% endfor %}
+
+#### Userlists ####
+
+{% for userlist in haproxy_cfg_userlists %}
+userlist {{ userlist.name }}
+{% for user in userlist.users %}
+{% if user.hashed_password is defined %}
+  user {{ user.name }} password {{ user.hashed_password }}
+{% elif user.password is defined  %}
+  user {{ user.name }} password {{ user.password | password_hash('sha512', 65534 | random(seed=user.name) | string) }}
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+
+{% if haproxy_cfg_caches is defined %}
+#### Cache ####
+
+{% for cache in haproxy_cfg_caches %}
+cache {{ cache.name }}
+  total-max-size  {{ cache.total_max_size }}
+  max-object-size {{ cache.max_object_size }}
+  max-age         {{ cache.max_age }}
+
+{% endfor %}
+{% endif %}
+
+{% if haproxy_cfg_listeners is defined %}
+#### Listeners ####
+
+{% for listener in haproxy_cfg_listeners %}
+listen {{ listener.name }}
+{% for option in listener.options if option is not none %}
+    {{ option | default("") | indent( width=4 ) }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+{% if haproxy_cfg_frontends is defined %}
+#### Frontends ####
+
+{% for frontend in haproxy_cfg_frontends %}
+frontend {{ frontend.name }}
+{% for option in frontend.options if option is not none %}
+    {{ option | default("") | indent( width=4 ) }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+{% if haproxy_cfg_backends is defined %}
+#### Backends ####
+
+{% for backend in haproxy_cfg_backends %}
+backend {{ backend.name }}
+{% for option in backend.options if option is not none %}
+    {{ option | default("") | indent( width=4 ) }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}

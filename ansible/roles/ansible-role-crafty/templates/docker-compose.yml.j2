@@ -1,0 +1,18 @@
+---
+services:
+  crafty:
+    image: "{{ crafty_image }}:{{ crafty_version }}"
+    container_name: "{{ crafty_container_name }}"
+    ports:
+{% for port in crafty_host_ports %}
+      - "{{ port }}"
+{% endfor %}
+    volumes:
+      - "{{ crafty_base_data_dir }}/backups:/crafty/backups"
+      - "{{ crafty_base_data_dir }}/logs:/crafty/logs"
+      - "{{ crafty_base_data_dir }}/servers:/crafty/servers"
+      - "{{ crafty_base_data_dir }}/config:/crafty/app/config"
+      - "{{ crafty_base_data_dir }}/import:/crafty/import"
+    environment:
+      - TZ={{ crafty_timezone }}
+    restart: always

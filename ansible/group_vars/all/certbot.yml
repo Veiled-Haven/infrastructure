@@ -1,0 +1,14 @@
+certificates:
+  - name: veiled-haven.net
+    email: admin@veiled-haven.net
+    port: 54321
+    domains:
+      - veiled-haven.net
+      - www.veiled-haven.net
+      - admin.veiled-haven.net
+      - map.veiled-haven.net
+  - name: netdata.veiled-haven.net
+    email: admin@veiled-haven.net
+    port: 54321
+    domains:
+      - netdata.veiled-haven.net

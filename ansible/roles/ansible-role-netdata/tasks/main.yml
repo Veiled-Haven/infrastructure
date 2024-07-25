@@ -1,0 +1,31 @@
+---
+- name: Ensure Docker SDK and compose are installed
+  ansible.builtin.apt:
+    name:
+      - python3-docker
+      - python3-compose
+    state: present
+
+- name: Create base data directory
+  ansible.builtin.file:
+    path: "{{ netdata_base_data_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Pull Netdata Controller image
+  community.docker.docker_image:
+    name: "{{ netdata_image }}"
+    tag: "{{ netdata_version }}"
+    source: pull
+
+- name: Copy docker-compose.yml to the target directory
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ netdata_base_data_dir }}/docker-compose.yml"
+
+- name: Deploy Netdata Controller using docker-compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ netdata_base_data_dir }}"
+    state: present

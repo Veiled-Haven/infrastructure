@@ -1,0 +1,23 @@
+---
+# Installation tasks for HAProxy role
+
+- name: Ensure haproxy.debian.net Repository/PPA is used
+  apt_repository:
+    repo: ppa:vbernat/haproxy-{{ haproxy_version }}
+    state: present
+
+- name: Ensure HAProxy is installed.
+  apt:
+    name:
+      - haproxy
+      - ssl-cert
+    state: present
+    update_cache: true
+
+- name: Ensure HAProxy is started and enabled on boot.
+  service:
+    name: haproxy
+    state: started
+    enabled: true
+  when:
+    - haproxy_manage_service

@@ -1,0 +1,17 @@
+---
+certificates: []
+
+# certificates:
+#   - name: example.com
+#     email: admin@example.com
+#     port: 8080
+#     domains:
+#       - example.com
+#       - www.example.com
+#   - name: another-example.com
+#     email: admin@another-example.com
+#     port: 8081
+#     domains:
+#       - another-example.com
+#       - www.another-example.com
+#       - api.another-example.com
