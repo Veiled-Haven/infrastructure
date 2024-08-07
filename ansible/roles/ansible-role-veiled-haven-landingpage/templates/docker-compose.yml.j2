@@ -8,3 +8,6 @@ services:
       - "{{ port }}"
 {% endfor %}
     restart: always
+    volumes:
+      - ./files/:/app/static/files
+

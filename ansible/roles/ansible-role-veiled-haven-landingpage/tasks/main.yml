@@ -14,7 +14,7 @@
     group: root
     mode: '0755'
 
-- name: Pull Crafty Controller image
+- name: Pull Landingpage image
   community.docker.docker_image:
     name: "{{ veiled_haven_landingpage_image }}"
     tag: "{{ veiled_haven_landingpage_version }}"
@@ -25,7 +25,7 @@
     src: docker-compose.yml.j2
     dest: "{{ veiled_haven_landingpage_base_data_dir }}/docker-compose.yml"
 
-- name: Deploy Crafty Controller using docker-compose
+- name: Deploy Landingpage using docker-compose
   community.docker.docker_compose_v2:
     project_src: "{{ veiled_haven_landingpage_base_data_dir }}"
     state: present
