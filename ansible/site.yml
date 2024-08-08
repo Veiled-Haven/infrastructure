@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: veiled-haven.net
   become: true
   roles:
     - ansible-role-btrfs
@@ -11,3 +11,8 @@
     - ansible-role-haproxy
     - ansible-role-certbot
     - ansible-role-certbot-hook
+
+- hosts: mantikor
+  become: true
+  roles:
+    - ansible-role-offsite-backup

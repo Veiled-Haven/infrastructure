@@ -1,0 +1,1 @@
+33 */6 * * * cstein RESTIC_PASSWORD={{offsite_backup_restic_password}} /tank/backup/veiled_haven/backup

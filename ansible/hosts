@@ -1,0 +1,3 @@
+[all]
+veiled-haven.net ansible_user=ubuntu
+mantikor ansible_host=192.168.178.41 ansible_user=cstein

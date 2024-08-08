@@ -1,0 +1,7 @@
+#!/bin/bash
+/tank/backup/veiled_haven/run_cmd.sh 'say offsite backup initiated...' | ts | tee -a /tank/backup/backup.log
+rsync --exclude=backups -avzh --delete ubuntu@veiled-haven.net:/srv/docker/crafty-4/* /tank/backup/veiled_haven/rsync/ |& ts | tee -a /tank/backup/backup.log
+/tank/backup/veiled_haven/run_cmd.sh 'say offsite backup rsync complete, starting restic...' | ts | tee -a /tank/backup/backup.log
+restic backup /tank/backup/veiled_haven/rsync -r /tank/backup/veiled_haven/restic |& ts | tee -a /tank/backup/backup.log
+restic forget --keep-last 7 --keep-weekly 8 --keep-monthly 12 --keep-yearly 1 --prune -r /tank/backup/veiled_haven/restic |& ts | tee -a /tank/backup/backup.log
+/tank/backup/veiled_haven/run_cmd.sh 'say offsite backup complete...' | ts | tee -a /tank/backup/backup.log

@@ -1,0 +1,13 @@
+---
+
+- name: deploy backup job
+  ansible.builtin.template:
+    src: tank/backup/veiled_haven/backup
+    dest: /tank/backup/veiled_haven/backup
+    mode: 0775
+
+- name: deploy cronjob template
+  ansible.builtin.template:
+    src: etc/cron.d/restic_backup_veiled_haven
+    dest: /etc/cron.d/restic_backup_veiled_haven
+    mode: 0644
